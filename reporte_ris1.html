@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RIS 1 - Dashboard de Personal</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; }
+        .bg-ris { background-color: #0f4c81; }
+        .text-ris { color: #0f4c81; }
+        .border-ris { border-color: #0f4c81; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <header class="bg-ris text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center space-x-3 mb-2 md:mb-0">
+                <i class="fa-solid fa-hospital-user text-3xl text-cyan-300"></i>
+                <div>
+                    <h1 class="text-2xl font-bold tracking-wide">RIS 1</h1>
+                    <p class="text-xs text-cyan-200">DESARROLLADO POR RIS 1 - AREA DE TECNOLOGIAS</p>
+                </div>
+            </div>
+            <div class="bg-blue-900 bg-opacity-50 px-4 py-2 rounded-lg border border-cyan-500/30 text-center">
+                <span class="text-xs uppercase tracking-wider text-cyan-200 block">Reporte Consolidado</span>
+                <span class="text-sm font-semibold">Total Evaluados: 687 Personal</span>
+            </div>
+        </div>
+    </header>
+
+    <nav class="bg-white border-b border-gray-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 flex justify-center md:justify-start space-x-2 md:space-x-8 overflow-x-auto">
+           
+   <!-- NUEVO BOTÓN: TAB 4 -->
+            <button id="btn-tab4" data-target="content-tab4" class="tab-btn px-4 py-3 font-medium text-sm border-b-2 border-transparent text-ris hover:text-gray-700 flex items-center space-x-2 whitespace-nowrap">
+                <i class="fa-solid fa-link"></i>
+                <span>4. Enlaces y Accesos</span>
+            </button>
+
+           
+            <button id="btn-tab1" data-target="content-tab1" class="tab-btn px-4 py-3 font-medium text-sm border-b-2    border-transparent text-gray-500       flex items-center space-x-2 whitespace-nowrap">
+                <i class="fa-solid fa-users"></i>
+                <span>1. Régimen Laboral</span>
+            </button>
+            <button id="btn-tab2" data-target="content-tab2" class="tab-btn px-4 py-3 font-medium text-sm border-b-2 border-transparent text-gray-500 hover:text-gray-700 flex items-center space-x-2 whitespace-nowrap">
+                <i class="fa-solid fa-user-doctor"></i>
+                <span>2. Área / Profesión</span>
+            </button>
+            <button id="btn-tab3" data-target="content-tab3" class="tab-btn px-4 py-3 font-medium text-sm border-b-2 border-transparent text-gray-500 hover:text-gray-700 flex items-center space-x-2 whitespace-nowrap">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>3. Rango Calificación</span>
+            </button>
+         
+        </div>
+    </nav>
+
+    
+    <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full">
+
+
+  <!-- NUEVO MÓDULO: TAB 4 -->
+        <div id="content-tab4" class="tab-content block space-y-4">
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                    <h2 class="text-lg font-bold text-gray-800 flex items-center space-x-2">
+                        <i class="fa-solid fa-link text-ris"></i>
+                        <span>Directorio de Enlaces y Accesos</span>
+                    </h2>
+                    <div class="relative w-full md:w-72">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-gray-400 text-sm"></i>
+                        <input type="text" id="searchLinks" placeholder="Buscar por título o link..." 
+                            class="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+                <div class="overflow-x-auto max-h-[550px] overflow-y-auto border border-gray-200 rounded-lg">
+                    <table class="w-full text-sm text-left text-gray-600">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-100 sticky top-0 border-b z-10">
+                            <tr>
+                                <th class="px-4 py-3 w-16 text-center">Copiar</th>
+                                <th class="px-4 py-3 w-1/3">Título del Acceso</th>
+                                <th class="px-4 py-3">Link / URL</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100" id="linksBody">
+                            <!-- JS Injected -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- KPIs -->
+
+        <!--
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-blue-600 flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-semibold text-gray-500 uppercase">Total General</p>
+                    <p class="text-2xl font-bold text-gray-800">687</p>
+                </div>
+                <div class="bg-blue-50 p-3 rounded-full text-blue-600"><i class="fa-solid fa-address-book text-xl"></i></div>
+            </div>
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-emerald-500 flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-semibold text-gray-500 uppercase">Nombrados</p>
+                    <p class="text-2xl font-bold text-emerald-600">485 <span class="text-xs text-gray-400 font-normal">(70.6%)</span></p>
+                </div>
+                <div class="bg-emerald-50 p-3 rounded-full text-emerald-600"><i class="fa-solid fa-id-card text-xl"></i></div>
+            </div>
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-amber-500 flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-semibold text-gray-500 uppercase">CAS</p>
+                    <p class="text-2xl font-bold text-amber-600">195 <span class="text-xs text-gray-400 font-normal">(28.4%)</span></p>
+                </div>
+                <div class="bg-amber-50 p-3 rounded-full text-amber-600"><i class="fa-solid fa-file-contract text-xl"></i></div>
+            </div>
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-purple-500 flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-semibold text-gray-500 uppercase">Contrato 276</p>
+                    <p class="text-2xl font-bold text-purple-600">7 <span class="text-xs text-gray-400 font-normal">(1.0%)</span></p>
+                </div>
+                <div class="bg-purple-50 p-3 rounded-full text-purple-600"><i class="fa-solid fa-file-signature text-xl"></i></div>
+            </div>
+        </div>
+
+
+
+    -->
+        <!-- TAB 1
+        <div id="content-tab1" class="tab-content space-y-6 block">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center space-x-2">
+                        <i class="fa-solid fa-table text-ris"></i>
+                        <span>Distribución de Personal por Establecimiento y Régimen Laboral</span>
+                    </h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left text-gray-600">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-100 border-b">
+                                <tr>
+                                    <th class="px-4 py-3">Establecimiento / Centro</th>
+                                    <th class="px-3 py-3 text-center bg-amber-50 text-amber-800">CAS</th>
+                                    <th class="px-3 py-3 text-center bg-purple-50 text-purple-800">276</th>
+                                    <th class="px-3 py-3 text-center bg-emerald-50 text-emerald-800">NOMBRADO/A</th>
+                                    <th class="px-4 py-3 text-right bg-gray-200">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">C.S. CONDE DE LA VEGA BAJA</td><td class="text-center font-semibold text-amber-600">27</td><td class="text-center">1</td><td class="text-center">56</td><td class="px-4 py-2 text-right font-bold text-gray-800">84</td></tr>
+                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">C.S. CONTROL DE ZOONOSIS</td><td class="text-center font-semibold text-amber-600">8</td><td class="text-center">3</td><td class="text-center">20</td><td class="px-4 py-2 text-right font-bold text-gray-800">31</td></tr>
+                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">C.S. JUAN PEREZ CARRANZA</td><td class="text-center font-semibold text-amber-600">13</td><td class="text-center">-</td><td class="text-center">80</td><td class="px-4 py-2 text-right font-bold text-gray-800">93</td></tr>
+                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">C.S. MIRONES</td><td class="text-center font-semibold text-amber-600">17</td><td class="text-center">-</td><td class="text-center">48</td><td class="px-4 py-2 text-right font-bold text-gray-800">65</td></tr>
+                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">C.S. SAN SEBASTIAN</td><td class="text-center font-semibold text-amber-600">11</td><td class="text-center">-</td><td class="text-center">65</td><td class="px-4 py-2 text-right font-bold text-gray-800">76</td></tr>
+                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">C.S. UNIDAD VECINAL Nº 3</td><td class="text-center font-semibold text-amber-600">13</td><td class="text-center">3</td><td class="text-center">36</td><td class="px-4 py-2 text-right font-bold text-gray-800">52</td></tr>
+                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">C.S. VILLAMARIA PERPETUO SOCORRO</td><td class="text-center font-semibold text-amber-600">9</td><td class="text-center">-</td><td class="text-center">50</td><td class="px-4 py-2 text-right font-bold text-gray-800">59</td></tr>
+                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">CERITSS RAUL PATRUCCO PUIG</td><td class="text-center font-semibold text-amber-600">5</td><td class="text-center">-</td><td class="text-center">41</td><td class="px-4 py-2 text-right font-bold text-gray-800">46</td></tr>
+                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">CS MIRONES BAJO</td><td class="text-center font-semibold text-amber-600">17</td><td class="text-center">-</td><td class="text-center">48</td><td class="px-4 py-2 text-right font-bold text-gray-800">65</td></tr>
+                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">CSMC MIRONES BAJO</td><td class="text-center font-semibold text-amber-600">23</td><td class="text-center">-</td><td class="text-center">-</td><td class="px-4 py-2 text-right font-bold text-gray-800">23</td></tr>
+                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">CSMC SAN MARCOS</td><td class="text-center font-semibold text-amber-600">14</td><td class="text-center">-</td><td class="text-center">10</td><td class="px-4 py-2 text-right font-bold text-gray-800">24</td></tr>
+                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">P.S. JARDIN ROSA DE SANTA MARIA</td><td class="text-center font-semibold text-amber-600">9</td><td class="text-center">-</td><td class="text-center">4</td><td class="px-4 py-2 text-right font-bold text-gray-800">13</td></tr>
+                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">P.S. PALERMO</td><td class="text-center font-semibold text-amber-600">9</td><td class="text-center">-</td><td class="text-center">12</td><td class="px-4 py-2 text-right font-bold text-gray-800">21</td></tr>
+                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">P.S. RESCATE</td><td class="text-center font-semibold text-amber-600">10</td><td class="text-center">-</td><td class="text-center">5</td><td class="px-4 py-2 text-right font-bold text-gray-800">15</td></tr>
+                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">P.S. SANTA ROSA</td><td class="text-center font-semibold text-amber-600">10</td><td class="text-center">-</td><td class="text-center">10</td><td class="px-4 py-2 text-right font-bold text-gray-800">20</td></tr>
+                            </tbody>
+                            <tfoot class="bg-gray-200 font-bold text-gray-900 border-t-2 border-gray-300">
+                                <tr>
+                                    <td class="px-4 py-3">TOTAL GENERAL</td>
+                                    <td class="text-center text-amber-800">195</td>
+                                    <td class="text-center text-purple-800">7</td>
+                                    <td class="text-center text-emerald-800">485</td>
+                                    <td class="px-4 py-3 text-right text-ris">687</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <h2 class="text-lg font-bold text-gray-800 mb-2 flex items-center space-x-2">
+                            <i class="fa-solid fa-chart-bar text-ris"></i>
+                            <span>Proporción por Régimen</span>
+                        </h2>
+                    </div>
+                    <div class="relative h-64 flex items-center justify-center w-full">
+                        <canvas id="chartRegimen"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    -->
+        
+
+        <div id="content-tab2" class="tab-content hidden space-y-4">
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                    <h2 class="text-lg font-bold text-gray-800 flex items-center space-x-2">
+                        <i class="fa-solid fa-sitemap text-ris"></i>
+                        <span>Distribución por Áreas y Establecimiento</span>
+                    </h2>
+                    <div class="relative w-full md:w-72">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-gray-400 text-sm"></i>
+                        <input type="text" id="searchInput" placeholder="Buscar área o centro..." 
+                            class="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+
+
+                <div class="overflow-x-auto max-h-[550px] overflow-y-auto border border-gray-200 rounded-lg">
+                   
+            
+                    <table class="w-full text-sm text-left text-gray-600" id="profesionTable">
+                       
+                       
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-100 sticky top-0 border-b z-10">
+                            <tr>
+
+<!--
+                                <th class="px-4 py-3">Área / Servicio</th>
+                                <th class="px-4 py-3">Establecimiento de Salud</th>
+                                <th class="px-4 py-3 text-right">Cantidad</th>
+
+                            -->
+
+                            </tr>
+                        </thead>
+
+
+
+                        <tbody class="divide-y divide-gray-100" id="profesionBody">
+                                        <!-- JS Injected  -->
+
+                  
+                        </tbody>
+                    </table>
+                
+                
+
+
+                </div>
+            </div>
+        </div>
+
+           <!--
+     
+        <div id="content-tab3" class="tab-content hidden space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center space-x-2">
+                        <i class="fa-solid fa-list-check text-ris"></i>
+                        <span>Total de Rango de Calificación</span>
+                    </h2>
+                    <table class="w-full text-sm text-left text-gray-600">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-100 border-b">
+                            <tr>
+                                <th class="px-4 py-3">Nivel / Rango</th>
+                                <th class="px-4 py-3 text-center">Cantidad</th>
+                                <th class="px-4 py-3 text-right">Porcentaje</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <tr class="hover:bg-gray-50"><td class="px-4 py-3 font-medium text-red-700">INFERIOR</td><td class="text-center font-bold">400</td><td class="text-right text-gray-500">58.2%</td></tr>
+                            <tr class="hover:bg-gray-50"><td class="px-4 py-3 font-medium text-orange-600">INFERIOR AL PROMEDIO</td><td class="text-center font-bold">48</td><td class="text-right text-gray-500">7.0%</td></tr>
+                            <tr class="hover:bg-gray-50"><td class="px-4 py-3 font-medium text-yellow-600">PROMEDIO</td><td class="text-center font-bold">30</td><td class="text-right text-gray-500">4.4%</td></tr>
+                            <tr class="hover:bg-gray-50"><td class="px-4 py-3 font-medium text-blue-600">SUPERIOR AL PROMEDIO</td><td class="text-center font-bold">171</td><td class="text-right text-gray-500">24.9%</td></tr>
+                            <tr class="hover:bg-gray-50"><td class="px-4 py-3 font-medium text-emerald-600">SUPERIOR</td><td class="text-center font-bold">35</td><td class="text-right text-gray-500">5.1%</td></tr>
+                            <tr class="hover:bg-gray-50"><td class="px-4 py-3 font-medium text-gray-400">(en blanco)</td><td class="text-center font-bold">3</td><td class="text-right text-gray-500">0.4%</td></tr>
+                        </tbody>
+                        <tfoot class="bg-gray-200 font-bold text-gray-900 border-t-2 border-gray-300">
+                            <tr>
+                                <td class="px-4 py-3">TOTAL GENERAL</td>
+                                <td class="text-center text-ris">687</td>
+                                <td class="text-right">100.0%</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 flex flex-col justify-between">
+                    <div>
+                        <h2 class="text-lg font-bold text-gray-800 mb-2 flex items-center space-x-2">
+                            <i class="fa-solid fa-chart-pie text-ris"></i>
+                            <span>Visualización de Calificaciones</span>
+                        </h2>
+                    </div>
+                    <div class="relative h-64 flex items-center justify-center">
+                        <canvas id="chartCalificacion"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+  
+    -->
+      
+
+    </main>
+
+    <footer class="bg-gray-800 text-gray-400 text-xs py-4 border-t border-gray-700 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="font-semibold text-white">RIS 1 - DESARROLLADO POR RIS 1 - AREA DE TECNOLOGIAS</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // ==========================================
+            // 1. Lógica robusta de Pestañas
+            // ==========================================
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Ocultar todos los contenidos y reiniciar botones
+                    tabContents.forEach(content => content.classList.add('hidden'));
+                    tabBtns.forEach(b => {
+                        b.classList.remove('border-ris', 'text-ris');
+                        b.classList.add('border-transparent', 'text-gray-500');
+                    });
+
+                    // Mostrar el seleccionado
+                    const targetId = btn.getAttribute('data-target');
+                    document.getElementById(targetId).classList.remove('hidden');
+                    btn.classList.add('border-ris', 'text-ris');
+                    btn.classList.remove('border-transparent', 'text-gray-500');
+                });
+            });
+
+            // ==========================================
+            // 2. Datos Cuadro 2 (Área / Profesión)
+
+
+            // ==========================================
+            const rawData = [
+                {a: "ABASTECIMIENTO", c: "C.S. CONDE DE LA VEGA BAJA", n: 3},
+                {a: "ABASTECIMIENTO", c: "C.S. CONTROL DE ZOONOSIS", n: 1},
+                {a: "ABASTECIMIENTO", c: "C.S. JUAN PEREZ CARRANZA", n: 5},
+                {a: "ADMISION", c: "C.S. CONDE DE LA VEGA BAJA", n: 8},
+                {a: "ADMISION", c: "C.S. CONTROL DE ZOONOSIS", n: 4},
+                {a: "ADMISION", c: "C.S. JUAN PEREZ CARRANZA", n: 7},
+                {a: "ENFERMERIA", c: "C.S. CONDE DE LA VEGA BAJA", n: 17},
+                {a: "ENFERMERIA", c: "C.S. JUAN PEREZ CARRANZA", n: 20},
+                {a: "ENFERMERIA", c: "C.S. MIRONES", n: 22},
+                {a: "MEDICINA", c: "CS MIRONES BAJO", n: 6},
+                {a: "OBSTETRICIA", c: "C.S. SAN SEBASTIAN", n: 5},
+                {a: "LABORATORIO", c: "CERITSS RAUL PATRUCCO PUIG", n: 7}
+            ];
+
+            const tbody = document.getElementById('profesionBody');
+            const searchInput = document.getElementById('searchInput');
+
+            function renderTable(data) {
+                tbody.innerHTML = '';
+                data.forEach(item => {
+                    const tr = document.createElement('tr');
+                    tr.className = "hover:bg-gray-50";
+                    tr.innerHTML = `<td class="px-4 py-2 font-semibold text-gray-800">${item.a}</td>
+                                    <td class="px-4 py-2 text-gray-600">${item.c}</td>
+                                    <td class="px-4 py-2 text-right font-bold text-blue-700">${item.n}</td>`;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            renderTable(rawData);
+
+            searchInput.addEventListener('input', (e) => {
+                const term = e.target.value.toUpperCase();
+                const filtered = rawData.filter(i => i.a.includes(term) || i.c.includes(term));
+                renderTable(filtered);
+            });
+
+            // ==========================================
+            // 3. NUEVO: Lógica Tabla de Enlaces (Tab 4)
+            // ==========================================
+            // Aquí puedes agregar todos los links que necesites a futuro
+            const linksData = [
+              { titulo: "Correos 2026 - RIS 1" ,  icono: "fa-solid fa-envelope-open-text", url: "https://docs.google.com/spreadsheets/d/1WS6aUG5HScadYHAMCnqTBg8_XSxDSFDZ/edit?usp=sharing&ouid=117052623885689583410&rtpof=true&sd=true" },
+                { titulo: "DIRECTORIO DE RIS Y EQUIPOS", icono: "fa-solid fa-address-book", url: "https://docs.google.com/spreadsheets/d/1X7M76cWlDbpZ_Gz75he8tFP8Myhd8Arn/edit?usp=sharing&ouid=117052623885689583410&rtpof=true&sd=true" },
+                { titulo: "Directorio de Equipos de Trabajos", icono: "fa-solid fa-users-viewfinder", url: "https://docs.google.com/spreadsheets/d/14dg0qOsk-yjVxRWHPjfZceipBjF1GDSb/edit?usp=sharing&ouid=117052623885689583410&rtpof=true&sd=true" },
+                { titulo: "SISANE ( TABLERO ESTADISTICA )", icono: "fa-solid fa-chart-line", url: "https://sisane.dirislimacentro.gob.pe/tableros/" },
+                { titulo: "Registro de Actividades", icono: "fa-solid fa-clipboard-check", url: "https://docs.google.com/forms/d/e/1FAIpQLSdH_KJNOqz9y3UGkXtp4u-0Ijf6uN-kzJ8V7BfcuuKH3fwOMA/viewform" },
+                { titulo: "GEORIS", icono: "fa-solid fa-map-location-dot", url: "https://geominsa.minsa.gob.pe/geominsaportal/apps/webappviewer/index.html?id=7358ce1c142846e2bc5df45964303bcd" },
+                { titulo: "Nominales", icono: "fa-solid fa-folder-tree", url: "https://drive.google.com/drive/folders/11aqbHh8rnC8rrOUt9_58TuodIUDC14ng?usp=sharing" },
+                { titulo: "Comite Distrital RIS 1", icono: "fa-solid fa-users-gear", url: "https://drive.google.com/drive/folders/1gljA143TC9FENTzPb9K05hlppT5KQG7H?usp=sharing" },
+ { titulo: "Consulta HT ( Estado de Tramite )", icono: "fa-solid fa-users-gear", url: "  https://app1.dirislimacentro.gob.pe/std/consult/" } ,
+ { titulo: "SISTEMA SGD ", icono: "fa-solid fa-users-gear", url: "https://app1.dirislimacentro.gob.pe/sgd/?url=login" } ,
+ { titulo: "PROTOCOLOS DE EMERGENCIA DE LOS C.S.   ", icono: "fa-solid fa-users-gear", url: "https://drive.google.com/drive/folders/19YRxhkEmDlAs7ZB-PUIOHwpNLPPuJojx?usp=drive_link " }
+
+
+
+
+            ];
+const linksBody = document.getElementById('linksBody');
+            const searchLinksInput = document.getElementById('searchLinks');
+
+            function renderLinksTable(data) {
+                linksBody.innerHTML = '';
+                data.forEach(item => {
+                    const tr = document.createElement('tr');
+                    tr.className = "hover:bg-gray-50 transition-colors";
+                    tr.innerHTML = `
+                        <td class="px-4 py-3 text-center">
+                            <button onclick="copyLink('${item.url}', this)" class="text-blue-500 hover:text-blue-700 transition-colors bg-blue-50 p-2 rounded-lg" title="Copiar URL">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
+                        </td>
+                        <td class="px-4 py-3 font-semibold text-gray-800">
+                            <!-- Aquí se agregó el contenedor flex y el ícono al costado del título -->
+                            <a href="${item.url}" target="_blank" class="hover:text-blue-600 transition-colors flex items-center space-x-2 w-max">
+                                <span>${item.titulo}</span>
+                                <i class="${item.icono} text-ris text-lg"></i>
+                            </a>
+                        </td>
+                        <td class="px-4 py-3 text-blue-600 hover:underline break-all text-xs">
+                            <a href="${item.url}" target="_blank">${item.url}</a>
+                        </td>
+                    `;
+                    linksBody.appendChild(tr);
+                });
+            }
+            renderLinksTable(linksData); // Render inicial
+
+            // Filtro de búsqueda para los links
+            searchLinksInput.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                const filteredLinks = linksData.filter(i => 
+                    i.titulo.toLowerCase().includes(term) || 
+                    i.url.toLowerCase().includes(term)
+                );
+                renderLinksTable(filteredLinks);
+            });
+
+            // Función global para copiar el link al portapapeles
+            window.copyLink = function(text, btnElement) {
+                navigator.clipboard.writeText(text).then(() => {
+                    // Cambiar el ícono para dar feedback visual de éxito
+                    const icon = btnElement.querySelector('i');
+                    icon.className = "fa-solid fa-check text-green-600";
+                    btnElement.classList.replace('bg-blue-50', 'bg-green-100');
+                    
+                    // Restaurar el ícono después de 2 segundos
+                    setTimeout(() => {
+                        icon.className = "fa-regular fa-copy";
+                        btnElement.classList.replace('bg-green-100', 'bg-blue-50');
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Error al copiar al portapapeles: ', err);
+                });
+            };
+
+            // ==========================================
+            // 4. Gráficos
+            // ==========================================
+            try {
+                if (typeof Chart !== 'undefined') {
+                    new Chart(document.getElementById('chartRegimen').getContext('2d'), {
+                        type: 'bar',
+                        data: {
+                            labels: ['Nombrado', 'CAS', '276'],
+                            datasets: [{ label: 'Personal', data: [485, 195, 7], backgroundColor: ['#10b981', '#f59e0b', '#8b5cf6'] }]
+                        },
+                        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+                    });
+
+                    new Chart(document.getElementById('chartCalificacion').getContext('2d'), {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Inferior', 'Sup. Prom.', 'Inf. Prom.', 'Superior', 'Promedio', 'Blanco'],
+                            datasets: [{ data: [400, 171, 48, 35, 30, 3], backgroundColor: ['#ef4444', '#3b82f6', '#f97316', '#10b981', '#eab308', '#9ca3af'] }]
+                        },
+                        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+                    });
+                }
+            } catch(error) {
+                console.error("No se pudo cargar los gráficos: ", error);
+            }
+        });
+    </script>
+</body>
+</html>
