@@ -38,15 +38,14 @@
 
     <nav class="bg-white border-b border-gray-200 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 flex justify-center md:justify-start space-x-2 md:space-x-8 overflow-x-auto">
-           
-   <!-- NUEVO BOTÓN: TAB 4 -->
-            <button id="btn-tab4" data-target="content-tab4" class="tab-btn px-4 py-3 font-medium text-sm border-b-2 border-transparent text-ris hover:text-gray-700 flex items-center space-x-2 whitespace-nowrap">
+            
+            <!-- BOTÓN: TAB 4 (ACTIVO POR DEFECTO) -->
+            <button id="btn-tab4" data-target="content-tab4" class="tab-btn px-4 py-3 font-medium text-sm border-b-2 border-ris text-ris flex items-center space-x-2 whitespace-nowrap">
                 <i class="fa-solid fa-link"></i>
-                <span>4. Enlaces y Accesos</span>
+                <span>Enlaces y Accesos</span>
             </button>
-
-           
-            <button id="btn-tab1" data-target="content-tab1" class="tab-btn px-4 py-3 font-medium text-sm border-b-2    border-transparent text-gray-500       flex items-center space-x-2 whitespace-nowrap">
+            
+            <button id="btn-tab1" data-target="content-tab1" class="tab-btn px-4 py-3 font-medium text-sm border-b-2 border-transparent text-gray-500 hover:text-gray-700 flex items-center space-x-2 whitespace-nowrap">
                 <i class="fa-solid fa-users"></i>
                 <span>1. Régimen Laboral</span>
             </button>
@@ -58,15 +57,12 @@
                 <i class="fa-solid fa-chart-pie"></i>
                 <span>3. Rango Calificación</span>
             </button>
-         
         </div>
     </nav>
 
-    
     <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full">
 
-
-  <!-- NUEVO MÓDULO: TAB 4 -->
+        <!-- MÓDULO: TAB 4 (VISIBLE POR DEFECTO) -->
         <div id="content-tab4" class="tab-content block space-y-4">
             <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
@@ -97,11 +93,8 @@
             </div>
         </div>
 
-
-        <!-- KPIs -->
-
-  
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <!-- SECCIÓN KPIs (OCULTA POR DEFECTO PORQUE INICIAMOS EN ENLACES) -->
+        <div id="kpi-section" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 hidden">
             <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 border-l-4 border-l-blue-600 flex items-center justify-between">
                 <div>
                     <p class="text-xs font-semibold text-gray-500 uppercase">Total General</p>
@@ -132,11 +125,8 @@
             </div>
         </div>
 
-
-
- 
-   
-        <div id="content-tab1" class="tab-content space-y-6 block">
+        <!-- MÓDULO: TAB 1 (AHORA OCULTO POR DEFECTO) -->
+        <div id="content-tab1" class="tab-content space-y-6 hidden">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="lg:col-span-2 bg-white p-5 rounded-xl shadow-sm border border-gray-100">
                     <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center space-x-2">
@@ -198,9 +188,7 @@
             </div>
         </div>
 
- 
-        
-
+        <!-- MÓDULO: TAB 2 -->
         <div id="content-tab2" class="tab-content hidden space-y-4">
             <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
@@ -214,44 +202,24 @@
                             class="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                 </div>
-
-
                 <div class="overflow-x-auto max-h-[550px] overflow-y-auto border border-gray-200 rounded-lg">
-                   
-            
                     <table class="w-full text-sm text-left text-gray-600" id="profesionTable">
-                       
-                       
                         <thead class="text-xs text-gray-700 uppercase bg-gray-100 sticky top-0 border-b z-10">
                             <tr>
-
-
                                 <th class="px-4 py-3">Área / Servicio</th>
                                 <th class="px-4 py-3">Establecimiento de Salud</th>
                                 <th class="px-4 py-3 text-right">Cantidad</th>
-
-
                             </tr>
                         </thead>
-
-
-
                         <tbody class="divide-y divide-gray-100" id="profesionBody">
-                                        <!-- JS Injected  -->
-
-                  
+                            <!-- JS Injected -->
                         </tbody>
                     </table>
-                
-                
-
-
                 </div>
             </div>
         </div>
 
-   
-     
+        <!-- MÓDULO: TAB 3 -->
         <div id="content-tab3" class="tab-content hidden space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
@@ -298,9 +266,6 @@
                 </div>
             </div>
         </div>
-  
-
-      
 
     </main>
 
@@ -317,6 +282,7 @@
             // ==========================================
             const tabBtns = document.querySelectorAll('.tab-btn');
             const tabContents = document.querySelectorAll('.tab-content');
+            const kpiSection = document.getElementById('kpi-section'); // Elemento KPI
 
             tabBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -332,13 +298,18 @@
                     document.getElementById(targetId).classList.remove('hidden');
                     btn.classList.add('border-ris', 'text-ris');
                     btn.classList.remove('border-transparent', 'text-gray-500');
+
+                    // Mostrar u ocultar KPIs dependiendo si estamos en enlaces
+                    if (targetId === 'content-tab4') {
+                        kpiSection.classList.add('hidden');
+                    } else {
+                        kpiSection.classList.remove('hidden');
+                    }
                 });
             });
 
             // ==========================================
             // 2. Datos Cuadro 2 (Área / Profesión)
-
-
             // ==========================================
             const rawData = [
                 {a: "ABASTECIMIENTO", c: "C.S. CONDE DE LA VEGA BAJA", n: 3},
@@ -379,11 +350,10 @@
             });
 
             // ==========================================
-            // 3. NUEVO: Lógica Tabla de Enlaces (Tab 4)
+            // 3. Lógica Tabla de Enlaces (Tab 4)
             // ==========================================
-            // Aquí puedes agregar todos los links que necesites a futuro
             const linksData = [
-              { titulo: "Correos 2026 - RIS 1" ,  icono: "fa-solid fa-envelope-open-text", url: "https://docs.google.com/spreadsheets/d/1WS6aUG5HScadYHAMCnqTBg8_XSxDSFDZ/edit?usp=sharing&ouid=117052623885689583410&rtpof=true&sd=true" },
+                { titulo: "Correos 2026 - RIS 1" ,  icono: "fa-solid fa-envelope-open-text", url: "https://docs.google.com/spreadsheets/d/1WS6aUG5HScadYHAMCnqTBg8_XSxDSFDZ/edit?usp=sharing&ouid=117052623885689583410&rtpof=true&sd=true" },
                 { titulo: "DIRECTORIO DE RIS Y EQUIPOS", icono: "fa-solid fa-address-book", url: "https://docs.google.com/spreadsheets/d/1X7M76cWlDbpZ_Gz75he8tFP8Myhd8Arn/edit?usp=sharing&ouid=117052623885689583410&rtpof=true&sd=true" },
                 { titulo: "Directorio de Equipos de Trabajos", icono: "fa-solid fa-users-viewfinder", url: "https://docs.google.com/spreadsheets/d/14dg0qOsk-yjVxRWHPjfZceipBjF1GDSb/edit?usp=sharing&ouid=117052623885689583410&rtpof=true&sd=true" },
                 { titulo: "SISANE ( TABLERO ESTADISTICA )", icono: "fa-solid fa-chart-line", url: "https://sisane.dirislimacentro.gob.pe/tableros/" },
@@ -391,15 +361,12 @@
                 { titulo: "GEORIS", icono: "fa-solid fa-map-location-dot", url: "https://geominsa.minsa.gob.pe/geominsaportal/apps/webappviewer/index.html?id=7358ce1c142846e2bc5df45964303bcd" },
                 { titulo: "Nominales", icono: "fa-solid fa-folder-tree", url: "https://drive.google.com/drive/folders/11aqbHh8rnC8rrOUt9_58TuodIUDC14ng?usp=sharing" },
                 { titulo: "Comite Distrital RIS 1", icono: "fa-solid fa-users-gear", url: "https://drive.google.com/drive/folders/1gljA143TC9FENTzPb9K05hlppT5KQG7H?usp=sharing" },
- { titulo: "Consulta HT ( Estado de Tramite )", icono: "fa-solid fa-users-gear", url: "  https://app1.dirislimacentro.gob.pe/std/consult/" } ,
- { titulo: "SISTEMA SGD ", icono: "fa-solid fa-users-gear", url: "https://app1.dirislimacentro.gob.pe/sgd/?url=login" } ,
- { titulo: "PROTOCOLOS DE EMERGENCIA DE LOS C.S.   ", icono: "fa-solid fa-users-gear", url: "https://drive.google.com/drive/folders/19YRxhkEmDlAs7ZB-PUIOHwpNLPPuJojx?usp=drive_link " }
-
-
-
-
+                { titulo: "Consulta HT ( Estado de Tramite )", icono: "fa-solid fa-file-signature", url: "https://app1.dirislimacentro.gob.pe/std/consult/" } ,
+                { titulo: "SISTEMA SGD ", icono: "fa-solid fa-desktop", url: "https://app1.dirislimacentro.gob.pe/sgd/?url=login" } ,
+                { titulo: "PROTOCOLOS DE EMERGENCIA DE LOS C.S. ", icono: "fa-solid fa-truck-medical", url: "https://drive.google.com/drive/folders/19YRxhkEmDlAs7ZB-PUIOHwpNLPPuJojx?usp=drive_link " }
             ];
-const linksBody = document.getElementById('linksBody');
+
+            const linksBody = document.getElementById('linksBody');
             const searchLinksInput = document.getElementById('searchLinks');
 
             function renderLinksTable(data) {
@@ -414,7 +381,6 @@ const linksBody = document.getElementById('linksBody');
                             </button>
                         </td>
                         <td class="px-4 py-3 font-semibold text-gray-800">
-                            <!-- Aquí se agregó el contenedor flex y el ícono al costado del título -->
                             <a href="${item.url}" target="_blank" class="hover:text-blue-600 transition-colors flex items-center space-x-2 w-max">
                                 <span>${item.titulo}</span>
                                 <i class="${item.icono} text-ris text-lg"></i>
@@ -427,9 +393,8 @@ const linksBody = document.getElementById('linksBody');
                     linksBody.appendChild(tr);
                 });
             }
-            renderLinksTable(linksData); // Render inicial
+            renderLinksTable(linksData);
 
-            // Filtro de búsqueda para los links
             searchLinksInput.addEventListener('input', (e) => {
                 const term = e.target.value.toLowerCase();
                 const filteredLinks = linksData.filter(i => 
@@ -439,15 +404,12 @@ const linksBody = document.getElementById('linksBody');
                 renderLinksTable(filteredLinks);
             });
 
-            // Función global para copiar el link al portapapeles
             window.copyLink = function(text, btnElement) {
                 navigator.clipboard.writeText(text).then(() => {
-                    // Cambiar el ícono para dar feedback visual de éxito
                     const icon = btnElement.querySelector('i');
                     icon.className = "fa-solid fa-check text-green-600";
                     btnElement.classList.replace('bg-blue-50', 'bg-green-100');
                     
-                    // Restaurar el ícono después de 2 segundos
                     setTimeout(() => {
                         icon.className = "fa-regular fa-copy";
                         btnElement.classList.replace('bg-green-100', 'bg-blue-50');
