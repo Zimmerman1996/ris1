@@ -187,35 +187,65 @@
         </div>
 
         <!-- MÓDULO: TAB 2 -->
+
+<!-- MÓDULO: TAB 2 -->
         <div id="content-tab2" class="tab-content hidden space-y-4">
             <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-                    <h2 class="text-lg font-bold text-gray-800 flex items-center space-x-2">
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
+                    <h2 class="text-lg font-bold text-gray-800 flex items-center space-x-2 min-w-max">
                         <i class="fa-solid fa-sitemap text-ris"></i>
-                        <span>Distribución por Áreas y Establecimiento</span>
+                        <span>Distribución por Áreas y Profesión</span>
                     </h2>
-                    <div class="relative w-full md:w-72">
-                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-gray-400 text-sm"></i>
-                        <input type="text" id="searchInput" placeholder="Buscar área o centro..." 
-                            class="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    
+                    <!-- Filtros interactivos -->
+                    <div class="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+                        <select id="filterCentro" class="w-full sm:w-64 px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ris bg-white text-gray-700 font-medium cursor-pointer">
+                            <option value="ALL">Todos los Centros (Matriz)</option>
+                            <option value="conde_vega">C.S. Conde de la Vega Baja</option>
+                            <option value="zoonosis">C.S. Control de Zoonosis</option>
+                            <option value="perez_carranza">C.S. Juan Perez Carranza</option>
+                            <option value="mirones">C.S. Mirones</option>
+                            <option value="mirones_bajo">CS Mirones Bajo</option>
+                            <option value="san_sebastian">C.S. San Sebastian</option>
+                            <option value="uv3">C.S. Unidad Vecinal Nº 3</option>
+                            <option value="villamaria">C.S. Villamaria Perpetuo Soc.</option>
+                            <option value="ceritss">CERITSS Raul Patrucco</option>
+                            <option value="csmc_mirones_bajo">CSMC Mirones Bajo</option>
+                            <option value="csmc_san_marcos">CSMC San Marcos</option>
+                            <option value="jardin_rosa">P.S. Jardin Rosa de Sta Maria</option>
+                            <option value="palermo">P.S. Palermo</option>
+                            <option value="rescate">P.S. Rescate</option>
+                            <option value="santa_rosa">P.S. Santa Rosa</option>
+                        </select>
+                        <div class="relative w-full sm:w-64">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-gray-400 text-sm"></i>
+                            <input type="text" id="searchCargo" placeholder="Buscar por cargo..." 
+                                class="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ris">
+                        </div>
                     </div>
                 </div>
-                <div class="overflow-x-auto max-h-[550px] overflow-y-auto border border-gray-200 rounded-lg">
-                    <table class="w-full text-sm text-left text-gray-600" id="profesionTable">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-100 sticky top-0 border-b z-10">
-                            <tr>
-                                <th class="px-4 py-3">Área / Servicio</th>
-                                <th class="px-4 py-3">Establecimiento de Salud</th>
-                                <th class="px-4 py-3 text-right">Cantidad</th>
-                            </tr>
+
+                <!-- Tabla de Datos con Scroll -->
+                <div class="overflow-x-auto max-h-[600px] overflow-y-auto border border-gray-200 rounded-lg shadow-inner">
+                    <table class="w-full text-sm text-left text-gray-600 whitespace-nowrap" id="matrixTable">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-100 sticky top-0 z-10 shadow-sm" id="matrixHead">
+                            <!-- Inyectado por JS -->
                         </thead>
-                        <tbody class="divide-y divide-gray-100" id="profesionBody">
-                            <!-- JS Injected -->
+                        <tbody class="divide-y divide-gray-100" id="matrixBody">
+                            <!-- Inyectado por JS -->
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+
+
+
+
+
+
+
+
 
         <!-- MÓDULO: TAB 3 -->
         <div id="content-tab3" class="tab-content hidden space-y-6">
@@ -309,43 +339,124 @@
             // ==========================================
             // 2. Datos Cuadro 2 (Área / Profesión)
             // ==========================================
-            const rawData = [
-                {a: "ABASTECIMIENTO", c: "C.S. CONDE DE LA VEGA BAJA", n: 3},
-                {a: "ABASTECIMIENTO", c: "C.S. CONTROL DE ZOONOSIS", n: 1},
-                {a: "ABASTECIMIENTO", c: "C.S. JUAN PEREZ CARRANZA", n: 5},
-                {a: "ADMISION", c: "C.S. CONDE DE LA VEGA BAJA", n: 8},
-                {a: "ADMISION", c: "C.S. CONTROL DE ZOONOSIS", n: 4},
-                {a: "ADMISION", c: "C.S. JUAN PEREZ CARRANZA", n: 7},
-                {a: "ENFERMERIA", c: "C.S. CONDE DE LA VEGA BAJA", n: 17},
-                {a: "ENFERMERIA", c: "C.S. JUAN PEREZ CARRANZA", n: 20},
-                {a: "ENFERMERIA", c: "C.S. MIRONES", n: 22},
-                {a: "MEDICINA", c: "CS MIRONES BAJO", n: 6},
-                {a: "OBSTETRICIA", c: "C.S. SAN SEBASTIAN", n: 5},
-                {a: "LABORATORIO", c: "CERITSS RAUL PATRUCCO PUIG", n: 7}
+            // ==========================================
+            // 2. DATOS Y LÓGICA: MÓDULO 2 (Matriz de Cargos)
+            // ==========================================
+            const centrosNombres = {
+                conde_vega: "Conde de la Vega", zoonosis: "Zoonosis", perez_carranza: "Perez Carranza", 
+                mirones: "Mirones", mirones_bajo: "Mirones Bajo", san_sebastian: "San Sebastian", 
+                uv3: "U.V. 3", villamaria: "Villamaria P.S.", ceritss: "CERITSS", 
+                csmc_mirones_bajo: "CSMC Mirones B.", csmc_san_marcos: "CSMC San Marcos", 
+                jardin_rosa: "Jardin Rosa", palermo: "Palermo", rescate: "Rescate", santa_rosa: "Santa Rosa"
+            };
+
+            const matrixData = [
+                { cargo: "TEC. EN ENFERMERIA", total: 148, conde_vega: 21, zoonosis: 7, perez_carranza: 16, mirones: 12, mirones_bajo: 13, san_sebastian: 14, uv3: 10, villamaria: 14, ceritss: 12, csmc_mirones_bajo: 2, csmc_san_marcos: 4, jardin_rosa: 5, palermo: 7, rescate: 6, santa_rosa: 5 },
+                { cargo: "ENFERMERA/O", total: 84, conde_vega: 7, zoonosis: 3, perez_carranza: 10, mirones: 9, mirones_bajo: 7, san_sebastian: 8, uv3: 7, villamaria: 7, ceritss: 4, csmc_mirones_bajo: 5, csmc_san_marcos: 6, jardin_rosa: 2, palermo: 4, rescate: 2, santa_rosa: 3 },
+                { cargo: "TEC. ASISTENCIAL", total: 83, conde_vega: 5, zoonosis: 3, perez_carranza: 20, mirones: 8, mirones_bajo: 14, san_sebastian: 12, uv3: 8, villamaria: 7, ceritss: 4, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 2 },
+                { cargo: "MEDICO", total: 60, conde_vega: 8, zoonosis: 4, perez_carranza: 9, mirones: 7, mirones_bajo: 6, san_sebastian: 5, uv3: 6, villamaria: 6, ceritss: 3, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 1, palermo: 1, rescate: 2, santa_rosa: 2 },
+                { cargo: "AUXILIAR ASISTENCIAL", total: 45, conde_vega: 10, zoonosis: 2, perez_carranza: 6, mirones: 4, mirones_bajo: 6, san_sebastian: 4, uv3: 3, villamaria: 4, ceritss: 2, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 3, rescate: 1, santa_rosa: 0 },
+                { cargo: "OBSTETRA", total: 41, conde_vega: 5, zoonosis: 0, perez_carranza: 6, mirones: 4, mirones_bajo: 4, san_sebastian: 5, uv3: 3, villamaria: 3, ceritss: 4, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 1, palermo: 2, rescate: 2, santa_rosa: 2 },
+                { cargo: "PSICOLOGO/A", total: 34, conde_vega: 3, zoonosis: 0, perez_carranza: 3, mirones: 2, mirones_bajo: 2, san_sebastian: 2, uv3: 3, villamaria: 1, ceritss: 3, csmc_mirones_bajo: 5, csmc_san_marcos: 7, jardin_rosa: 1, palermo: 1, rescate: 1, santa_rosa: 0 },
+                { cargo: "CIRUJANO DENTISTA", total: 26, conde_vega: 3, zoonosis: 0, perez_carranza: 4, mirones: 2, mirones_bajo: 2, san_sebastian: 4, uv3: 2, villamaria: 2, ceritss: 3, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 1, palermo: 1, rescate: 1, santa_rosa: 1 },
+                { cargo: "TEC. EN LABORATORIO", total: 21, conde_vega: 4, zoonosis: 1, perez_carranza: 1, mirones: 3, mirones_bajo: 3, san_sebastian: 3, uv3: 1, villamaria: 2, ceritss: 3, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "NUTRICIONISTA", total: 19, conde_vega: 3, zoonosis: 0, perez_carranza: 3, mirones: 2, mirones_bajo: 2, san_sebastian: 3, uv3: 2, villamaria: 1, ceritss: 0, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 1, palermo: 1, rescate: 0, santa_rosa: 1 },
+                { cargo: "TEC. ADMINISTRATIVO", total: 19, conde_vega: 0, zoonosis: 2, perez_carranza: 2, mirones: 0, mirones_bajo: 0, san_sebastian: 3, uv3: 2, villamaria: 5, ceritss: 2, csmc_mirones_bajo: 2, csmc_san_marcos: 1, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "AUXILIAR ADMINIST.", total: 16, conde_vega: 2, zoonosis: 0, perez_carranza: 4, mirones: 3, mirones_bajo: 0, san_sebastian: 1, uv3: 1, villamaria: 0, ceritss: 3, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 1, rescate: 0, santa_rosa: 1 },
+                { cargo: "TRABAJADORA SOCIAL", total: 13, conde_vega: 1, zoonosis: 0, perez_carranza: 3, mirones: 1, mirones_bajo: 0, san_sebastian: 2, uv3: 1, villamaria: 2, ceritss: 0, csmc_mirones_bajo: 2, csmc_san_marcos: 1, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "TEC. EN FARMACIA I", total: 9, conde_vega: 0, zoonosis: 2, perez_carranza: 0, mirones: 0, mirones_bajo: 0, san_sebastian: 1, uv3: 1, villamaria: 1, ceritss: 1, csmc_mirones_bajo: 1, csmc_san_marcos: 1, jardin_rosa: 1, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "TECNOLOGO MEDICO EN LABORATORIO", total: 9, conde_vega: 0, zoonosis: 0, perez_carranza: 2, mirones: 1, mirones_bajo: 1, san_sebastian: 1, uv3: 1, villamaria: 1, ceritss: 2, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "TRAB. SERV. GRALS", total: 7, conde_vega: 0, zoonosis: 3, perez_carranza: 0, mirones: 0, mirones_bajo: 0, san_sebastian: 0, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 0, csmc_san_marcos: 1, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 3 },
+                { cargo: "TEC. ADMINISTRATIVO (2)", total: 6, conde_vega: 4, zoonosis: 0, perez_carranza: 0, mirones: 0, mirones_bajo: 2, san_sebastian: 0, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "ASISTENTE ADMINISTRATIVO I", total: 5, conde_vega: 0, zoonosis: 1, perez_carranza: 0, mirones: 1, mirones_bajo: 0, san_sebastian: 0, uv3: 1, villamaria: 2, ceritss: 0, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "QUIMICO/A FARMACEUTICO/A", total: 5, conde_vega: 0, zoonosis: 0, perez_carranza: 0, mirones: 0, mirones_bajo: 2, san_sebastian: 0, uv3: 0, villamaria: 1, ceritss: 0, csmc_mirones_bajo: 1, csmc_san_marcos: 1, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "TEC. SERV. GRALES", total: 5, conde_vega: 2, zoonosis: 0, perez_carranza: 0, mirones: 0, mirones_bajo: 0, san_sebastian: 0, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 3, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "AUXILIAR DE ENFERMERIA", total: 2, conde_vega: 0, zoonosis: 0, perez_carranza: 0, mirones: 1, mirones_bajo: 0, san_sebastian: 1, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "BIOLOGO", total: 2, conde_vega: 0, zoonosis: 0, perez_carranza: 1, mirones: 1, mirones_bajo: 0, san_sebastian: 0, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "CONTADORA", total: 2, conde_vega: 0, zoonosis: 0, perez_carranza: 1, mirones: 1, mirones_bajo: 0, san_sebastian: 0, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "DIGITADOR/A", total: 2, conde_vega: 2, zoonosis: 0, perez_carranza: 0, mirones: 0, mirones_bajo: 0, san_sebastian: 0, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "ESPECIALISTA ADMINISTRATIVO", total: 2, conde_vega: 1, zoonosis: 0, perez_carranza: 0, mirones: 0, mirones_bajo: 0, san_sebastian: 1, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "MEDICO VETERINARIO (2)", total: 2, conde_vega: 0, zoonosis: 2, perez_carranza: 0, mirones: 0, mirones_bajo: 0, san_sebastian: 0, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "TEC. EN RAYOS X", total: 2, conde_vega: 1, zoonosis: 0, perez_carranza: 1, mirones: 0, mirones_bajo: 0, san_sebastian: 0, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "TECNOLOGO MEDICO LAB CLI Y ANATO PATOLOG", total: 2, conde_vega: 1, zoonosis: 0, perez_carranza: 0, mirones: 0, mirones_bajo: 0, san_sebastian: 1, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "ASISTENTE EN SERVICIO SOCIAL", total: 1, conde_vega: 0, zoonosis: 0, perez_carranza: 0, mirones: 1, mirones_bajo: 0, san_sebastian: 0, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "ASISTENTE PROFESIONAL I", total: 1, conde_vega: 0, zoonosis: 0, perez_carranza: 0, mirones: 0, mirones_bajo: 0, san_sebastian: 1, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "ASISTENTE TECNICO SECRETARIAL", total: 1, conde_vega: 0, zoonosis: 0, perez_carranza: 0, mirones: 1, mirones_bajo: 0, san_sebastian: 0, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "INGENIERO AMBIENTAL", total: 1, conde_vega: 0, zoonosis: 0, perez_carranza: 0, mirones: 0, mirones_bajo: 0, san_sebastian: 1, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "INSP. SANITARIO", total: 1, conde_vega: 0, zoonosis: 0, perez_carranza: 1, mirones: 0, mirones_bajo: 0, san_sebastian: 0, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "MÉDICO DE FAMILIA", total: 1, conde_vega: 0, zoonosis: 0, perez_carranza: 0, mirones: 0, mirones_bajo: 0, san_sebastian: 0, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 0, csmc_san_marcos: 1, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "MEDICO INTERNISTA", total: 1, conde_vega: 0, zoonosis: 0, perez_carranza: 0, mirones: 0, mirones_bajo: 0, san_sebastian: 1, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "MEDICO PEDIATRA", total: 1, conde_vega: 0, zoonosis: 0, perez_carranza: 0, mirones: 0, mirones_bajo: 0, san_sebastian: 1, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "MÉDICO PSIQUIATRA", total: 1, conde_vega: 0, zoonosis: 0, perez_carranza: 0, mirones: 0, mirones_bajo: 0, san_sebastian: 0, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 0, csmc_san_marcos: 1, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "MEDICO VETERINARIO", total: 1, conde_vega: 0, zoonosis: 1, perez_carranza: 0, mirones: 0, mirones_bajo: 0, san_sebastian: 0, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "TECNICO EN NUTRICION", total: 1, conde_vega: 0, zoonosis: 0, perez_carranza: 0, mirones: 1, mirones_bajo: 0, san_sebastian: 0, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "TECNICO/A EN SEGURIDAD", total: 1, conde_vega: 0, zoonosis: 0, perez_carranza: 0, mirones: 0, mirones_bajo: 0, san_sebastian: 1, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "TECNOLOGO MEDICO EN LENGUAJE", total: 1, conde_vega: 0, zoonosis: 0, perez_carranza: 0, mirones: 0, mirones_bajo: 0, san_sebastian: 0, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 1, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "TECNOLOGO MEDICO EN RADIOLOGIA", total: 1, conde_vega: 0, zoonosis: 0, perez_carranza: 0, mirones: 0, mirones_bajo: 1, san_sebastian: 0, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "TECNOLOGO MEDICO EN SAL. OCUPAC", total: 1, conde_vega: 0, zoonosis: 0, perez_carranza: 0, mirones: 0, mirones_bajo: 0, san_sebastian: 0, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 1, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 },
+                { cargo: "TRABAJADOR SOCIAL", total: 1, conde_vega: 1, zoonosis: 0, perez_carranza: 0, mirones: 0, mirones_bajo: 0, san_sebastian: 0, uv3: 0, villamaria: 0, ceritss: 0, csmc_mirones_bajo: 0, csmc_san_marcos: 0, jardin_rosa: 0, palermo: 0, rescate: 0, santa_rosa: 0 }
             ];
 
-            const tbody = document.getElementById('profesionBody');
-            const searchInput = document.getElementById('searchInput');
+            const thead = document.getElementById('matrixHead');
+            const tbody2 = document.getElementById('matrixBody');
+            const filterCentro = document.getElementById('filterCentro');
+            const searchCargo = document.getElementById('searchCargo');
 
-            function renderTable(data) {
-                tbody.innerHTML = '';
+            function renderMatrix(data, centroKey) {
+                // Generar cabeceras dinámicamente
+                let headHTML = `<tr>
+                                    <th class="px-4 py-3 sticky left-0 bg-gray-100 shadow-[inset_-1px_0_0_#e5e7eb]">Cargo</th>
+                                    <th class="px-3 py-3 text-center border-r bg-gray-200">TOTAL</th>`;
+                
+                if (centroKey === 'ALL') {
+                    Object.values(centrosNombres).forEach(name => {
+                        headHTML += `<th class="px-3 py-3 text-center border-r font-medium">${name}</th>`;
+                    });
+                } else {
+                    headHTML += `<th class="px-3 py-3 text-center text-blue-700 bg-blue-50">${centrosNombres[centroKey]}</th>`;
+                }
+                headHTML += `</tr>`;
+                thead.innerHTML = headHTML;
+
+                // Generar cuerpo dinámicamente
+                tbody2.innerHTML = '';
                 data.forEach(item => {
+                    // Si hay un filtro de centro específico y el valor es 0, no mostramos la fila para mantenerlo limpio.
+                    if (centroKey !== 'ALL' && item[centroKey] === 0) return;
+
                     const tr = document.createElement('tr');
-                    tr.className = "hover:bg-gray-50";
-                    tr.innerHTML = `<td class="px-4 py-2 font-semibold text-gray-800">${item.a}</td>
-                                    <td class="px-4 py-2 text-gray-600">${item.c}</td>
-                                    <td class="px-4 py-2 text-right font-bold text-blue-700">${item.n}</td>`;
-                    tbody.appendChild(tr);
+                    tr.className = "hover:bg-gray-50 transition-colors";
+                    
+                    let rowHTML = `<td class="px-4 py-2 font-semibold text-gray-800 sticky left-0 bg-white shadow-[inset_-1px_0_0_#e5e7eb] group-hover:bg-gray-50">${item.cargo}</td>
+                                   <td class="px-3 py-2 text-center font-bold border-r bg-gray-50 text-ris">${item.total}</td>`;
+                    
+                    if (centroKey === 'ALL') {
+                        Object.keys(centrosNombres).forEach(key => {
+                            const val = item[key];
+                            const cssClass = val > 0 ? "font-bold text-gray-800" : "text-gray-300";
+                            rowHTML += `<td class="px-3 py-2 text-center border-r ${cssClass}">${val}</td>`;
+                        });
+                    } else {
+                        rowHTML += `<td class="px-3 py-2 text-center font-bold text-blue-700 bg-blue-50/30">${item[centroKey]}</td>`;
+                    }
+
+                    tr.innerHTML = rowHTML;
+                    tbody2.appendChild(tr);
                 });
             }
 
-            renderTable(rawData);
+            renderMatrix(matrixData, 'ALL');
 
-            searchInput.addEventListener('input', (e) => {
-                const term = e.target.value.toUpperCase();
-                const filtered = rawData.filter(i => i.a.includes(term) || i.c.includes(term));
-                renderTable(filtered);
-            });
+            // Listeners combinados para Buscador y Select
+            function updateMatrixFilters() {
+                const term = searchCargo.value.toUpperCase();
+                const centroSelected = filterCentro.value;
+                const filteredData = matrixData.filter(i => i.cargo.includes(term));
+                renderMatrix(filteredData, centroSelected);
+            }
+
+            searchCargo.addEventListener('input', updateMatrixFilters);
+            filterCentro.addEventListener('change', updateMatrixFilters);
 
             // ==========================================
             // 3. Lógica Tabla de Enlaces (Tab 4)
@@ -361,7 +472,10 @@
                 { titulo: "Comite Distrital RIS 1", icono: "fa-solid fa-users-gear", url: "https://drive.google.com/drive/folders/1gljA143TC9FENTzPb9K05hlppT5KQG7H?usp=sharing" },
                 { titulo: "Consulta HT ( Estado de Tramite )", icono: "fa-solid fa-file-signature", url: "https://app1.dirislimacentro.gob.pe/std/consult/" } ,
                 { titulo: "SISTEMA SGD ", icono: "fa-solid fa-desktop", url: "https://app1.dirislimacentro.gob.pe/sgd/?url=login" } ,
-                { titulo: "PROTOCOLOS DE EMERGENCIA DE LOS C.S. ", icono: "fa-solid fa-truck-medical", url: "https://drive.google.com/drive/folders/19YRxhkEmDlAs7ZB-PUIOHwpNLPPuJojx?usp=drive_link " }
+                { titulo: "PROTOCOLOS DE EMERGENCIA DE LOS C.S. ", icono: "fa-solid fa-truck-medical", url: "https://drive.google.com/drive/folders/19YRxhkEmDlAs7ZB-PUIOHwpNLPPuJojx?usp=drive_link " } , 
+                {  titulo: "PPT - RIS 1",     icono: "fa-solid fa-truck-medical",  url: "plantillas/ppt_modelo.pptx"  } , 
+                {  titulo: " TELESALUD - POWERBI   ",     icono: "fa-solid fa-truck-medical",  url: "https://app.powerbi.com/view?r=eyJrIjoiN2JiY2RjNjktY2ZlZC00OTZiLTg3NWEtZGVlOTlmM2NmZmQ1IiwidCI6Ijc0NTZhNWUzLTJlYmUtNGU1Ni04NzQwLWQxNDQ5OTQ4ZmZmMiIsImMiOjR9"  } , 
+
             ];
 
             const linksBody = document.getElementById('linksBody');
