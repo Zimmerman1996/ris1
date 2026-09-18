@@ -291,7 +291,7 @@
         </div>
 
         <!-- ========================================== -->
-        <!-- MÓDULO 3: PARQUE INFORMÁTICO (NUEVO) (OCULTO) -->
+        <!-- MÓDULO 3: PARQUE INFORMÁTICO (OCULTO) -->
         <!-- ========================================== -->
         <div id="main-it" class="main-content hidden space-y-4">
             
@@ -349,6 +349,22 @@
                             </tfoot>
                         </table>
                     </div>
+
+                    <!-- Gráficos de Computadoras -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                            <h3 class="text-sm font-bold text-gray-700 mb-3 text-center">Estado General (Barras)</h3>
+                            <div class="relative h-56 w-full">
+                                <canvas id="chartComputadorasBar"></canvas>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                            <h3 class="text-sm font-bold text-gray-700 mb-3 text-center">Proporción de Estado (Circular)</h3>
+                            <div class="relative h-56 w-full">
+                                <canvas id="chartComputadorasPie"></canvas>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -359,42 +375,62 @@
                         <i class="fa-solid fa-tv text-ris"></i>
                         <span>Disponibilidad de Monitores por Establecimiento</span>
                     </h2>
-                    <div class="overflow-x-auto border border-gray-200 rounded-lg shadow-inner max-w-3xl">
-                        <table class="w-full text-sm text-left text-gray-600 whitespace-nowrap">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-100 border-b">
-                                <tr>
-                                    <th class="px-4 py-3">Establecimiento</th>
-                                    <th class="px-4 py-3 text-center text-red-700 bg-red-50">NO</th>
-                                    <th class="px-4 py-3 text-center text-emerald-700 bg-emerald-50">SÍ</th>
-                                    <th class="px-4 py-3 text-right bg-gray-200 font-bold">Total General</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-100">
-                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">C.S CONDE DE LA VEGA</td><td class="text-center font-semibold text-gray-500">5</td><td class="text-center font-semibold text-emerald-600">41</td><td class="px-4 py-2 text-right font-bold text-gray-800">46</td></tr>
-                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">C.S MIRONES</td><td class="text-center font-semibold text-gray-500">27</td><td class="text-center font-semibold text-emerald-600">1</td><td class="px-4 py-2 text-right font-bold text-gray-800">28</td></tr>
-                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">C.S. JUAN PEREZ CARRANZA</td><td class="text-center font-semibold text-gray-500">2</td><td class="text-center font-semibold text-emerald-600">53</td><td class="px-4 py-2 text-right font-bold text-gray-800">55</td></tr>
-                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">CS . UV 3</td><td class="text-center font-semibold text-gray-500">1</td><td class="text-center font-semibold text-emerald-600">17</td><td class="px-4 py-2 text-right font-bold text-gray-800">18</td></tr>
-                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">CS . VILLA MARIA PERPETUO</td><td class="text-center font-semibold text-gray-300">-</td><td class="text-center font-semibold text-emerald-600">25</td><td class="px-4 py-2 text-right font-bold text-gray-800">25</td></tr>
-                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">CS. ANTIRABICO ZOONOSIS</td><td class="text-center font-semibold text-gray-300">-</td><td class="text-center font-semibold text-emerald-600">5</td><td class="px-4 py-2 text-right font-bold text-gray-800">5</td></tr>
-                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">CS. MIRONES BAJOS</td><td class="text-center font-semibold text-gray-500">6</td><td class="text-center font-semibold text-emerald-600">31</td><td class="px-4 py-2 text-right font-bold text-gray-800">37</td></tr>
-                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">CS. RAUL PATRUCO</td><td class="text-center font-semibold text-gray-500">7</td><td class="text-center font-semibold text-emerald-600">6</td><td class="px-4 py-2 text-right font-bold text-gray-800">13</td></tr>
-                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">CS. SAN SEBASTIAN</td><td class="text-center font-semibold text-gray-300">-</td><td class="text-center font-semibold text-emerald-600">43</td><td class="px-4 py-2 text-right font-bold text-gray-800">43</td></tr>
-                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">CSMC SAN MARCOS</td><td class="text-center font-semibold text-gray-500">3</td><td class="text-center font-semibold text-emerald-600">9</td><td class="px-4 py-2 text-right font-bold text-gray-800">12</td></tr>
-                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">CSMC. MIRONES BAJOS</td><td class="text-center font-semibold text-gray-500">5</td><td class="text-center font-semibold text-emerald-600">7</td><td class="px-4 py-2 text-right font-bold text-gray-800">12</td></tr>
-                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">P.S SANTA ROSA</td><td class="text-center font-semibold text-gray-500">1</td><td class="text-center font-semibold text-emerald-600">17</td><td class="px-4 py-2 text-right font-bold text-gray-800">18</td></tr>
-                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">PS . JARDIN ROSA SANTA MARIA</td><td class="text-center font-semibold text-gray-300">-</td><td class="text-center font-semibold text-emerald-600">20</td><td class="px-4 py-2 text-right font-bold text-gray-800">20</td></tr>
-                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">PS PALERMO</td><td class="text-center font-semibold text-gray-300">-</td><td class="text-center font-semibold text-emerald-600">18</td><td class="px-4 py-2 text-right font-bold text-gray-800">18</td></tr>
-                                <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">PS. RESCATE</td><td class="text-center font-semibold text-gray-300">-</td><td class="text-center font-semibold text-emerald-600">19</td><td class="px-4 py-2 text-right font-bold text-gray-800">19</td></tr>
-                            </tbody>
-                            <tfoot class="bg-gray-200 font-bold text-gray-900 border-t-2 border-gray-300">
-                                <tr>
-                                    <td class="px-4 py-3">TOTAL GENERAL</td>
-                                    <td class="text-center text-red-800">57</td>
-                                    <td class="text-center text-emerald-800">312</td>
-                                    <td class="px-4 py-3 text-right text-ris">369</td>
-                                </tr>
-                            </tfoot>
-                        </table>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="overflow-x-auto border border-gray-200 rounded-lg shadow-inner">
+                            <table class="w-full text-sm text-left text-gray-600 whitespace-nowrap">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-100 border-b">
+                                    <tr>
+                                        <th class="px-4 py-3">Establecimiento</th>
+                                        <th class="px-4 py-3 text-center text-emerald-700 bg-emerald-50">SÍ</th>
+                                        <th class="px-4 py-3 text-center text-red-700 bg-red-50">NO</th>
+                                        <th class="px-4 py-3 text-right bg-gray-200 font-bold">Total General</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100">
+                                    <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">C.S CONDE DE LA VEGA</td><td class="text-center font-semibold text-emerald-600">41</td><td class="text-center font-semibold text-gray-500">5</td><td class="px-4 py-2 text-right font-bold text-gray-800">46</td></tr>
+                                    <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">C.S MIRONES</td><td class="text-center font-semibold text-emerald-600">1</td><td class="text-center font-semibold text-gray-500">27</td><td class="px-4 py-2 text-right font-bold text-gray-800">28</td></tr>
+                                    <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">C.S. JUAN PEREZ CARRANZA</td><td class="text-center font-semibold text-emerald-600">53</td><td class="text-center font-semibold text-gray-500">2</td><td class="px-4 py-2 text-right font-bold text-gray-800">55</td></tr>
+                                    <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">CS . UV 3</td><td class="text-center font-semibold text-emerald-600">17</td><td class="text-center font-semibold text-gray-500">1</td><td class="px-4 py-2 text-right font-bold text-gray-800">18</td></tr>
+                                    <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">CS . VILLA MARIA PERPETUO</td><td class="text-center font-semibold text-emerald-600">25</td><td class="text-center font-semibold text-gray-300">-</td><td class="px-4 py-2 text-right font-bold text-gray-800">25</td></tr>
+                                    <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">CS. ANTIRABICO ZOONOSIS</td><td class="text-center font-semibold text-emerald-600">5</td><td class="text-center font-semibold text-gray-300">-</td><td class="px-4 py-2 text-right font-bold text-gray-800">5</td></tr>
+                                    <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">CS. MIRONES BAJOS</td><td class="text-center font-semibold text-emerald-600">31</td><td class="text-center font-semibold text-gray-500">6</td><td class="px-4 py-2 text-right font-bold text-gray-800">37</td></tr>
+                                    <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">CS. RAUL PATRUCO</td><td class="text-center font-semibold text-emerald-600">6</td><td class="text-center font-semibold text-gray-500">7</td><td class="px-4 py-2 text-right font-bold text-gray-800">13</td></tr>
+                                    <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">CS. SAN SEBASTIAN</td><td class="text-center font-semibold text-emerald-600">43</td><td class="text-center font-semibold text-gray-300">-</td><td class="px-4 py-2 text-right font-bold text-gray-800">43</td></tr>
+                                    <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">CSMC SAN MARCOS</td><td class="text-center font-semibold text-emerald-600">9</td><td class="text-center font-semibold text-gray-500">3</td><td class="px-4 py-2 text-right font-bold text-gray-800">12</td></tr>
+                                    <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">CSMC. MIRONES BAJOS</td><td class="text-center font-semibold text-emerald-600">7</td><td class="text-center font-semibold text-gray-500">5</td><td class="px-4 py-2 text-right font-bold text-gray-800">12</td></tr>
+                                    <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">P.S SANTA ROSA</td><td class="text-center font-semibold text-emerald-600">17</td><td class="text-center font-semibold text-gray-500">1</td><td class="px-4 py-2 text-right font-bold text-gray-800">18</td></tr>
+                                    <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">PS . JARDIN ROSA SANTA MARIA</td><td class="text-center font-semibold text-emerald-600">20</td><td class="text-center font-semibold text-gray-300">-</td><td class="px-4 py-2 text-right font-bold text-gray-800">20</td></tr>
+                                    <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">PS PALERMO</td><td class="text-center font-semibold text-emerald-600">18</td><td class="text-center font-semibold text-gray-300">-</td><td class="px-4 py-2 text-right font-bold text-gray-800">18</td></tr>
+                                    <tr class="hover:bg-gray-50"><td class="px-4 py-2 font-medium">PS. RESCATE</td><td class="text-center font-semibold text-emerald-600">19</td><td class="text-center font-semibold text-gray-300">-</td><td class="px-4 py-2 text-right font-bold text-gray-800">19</td></tr>
+                                </tbody>
+                                <tfoot class="bg-gray-200 font-bold text-gray-900 border-t-2 border-gray-300">
+                                    <tr>
+                                        <td class="px-4 py-3">TOTAL GENERAL</td>
+                                        <td class="text-center text-emerald-800">312</td>
+                                        <td class="text-center text-red-800">57</td>
+                                        <td class="px-4 py-3 text-right text-ris">369</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+                        <!-- Gráficos Monitores (Columna lateral) -->
+                        <div class="flex flex-col space-y-6">
+                            <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 flex-1">
+                                <h3 class="text-sm font-bold text-gray-700 mb-3 text-center">Operativos vs Inoperativos (Barras)</h3>
+                                <div class="relative h-48 w-full">
+                                    <canvas id="chartMonitoresBar"></canvas>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 p-4 rounded-xl border border-gray-100 flex-1">
+                                <h3 class="text-sm font-bold text-gray-700 mb-3 text-center">Proporción (Circular)</h3>
+                                <div class="relative h-48 w-full">
+                                    <canvas id="chartMonitoresPie"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -420,14 +456,11 @@
                 
                 btns.forEach(btn => {
                     btn.addEventListener('click', () => {
-                        // Ocultar todos los contenidos
                         contents.forEach(c => c.classList.add('hidden'));
-                        // Reiniciar botones
                         btns.forEach(b => {
                             b.classList.remove(...activeClasses);
                             b.classList.add(...inactiveClasses);
                         });
-                        // Activar target
                         const targetId = btn.getAttribute('data-target');
                         document.getElementById(targetId).classList.remove('hidden');
                         btn.classList.add(...activeClasses);
@@ -436,24 +469,9 @@
                 });
             }
 
-            // Iniciar TABS Principales
-            setupTabs('.main-tab-btn', '.main-content', 
-                ['border-ris', 'text-ris'], 
-                ['border-transparent', 'text-gray-500']
-            );
-
-            // Iniciar SUB-TABS de RRHH
-            setupTabs('.subtab-rrhh-btn', '.sub-content-rrhh', 
-                ['bg-ris', 'text-white'], 
-                ['bg-gray-100', 'text-gray-600']
-            );
-
-            // Iniciar SUB-TABS de Parque Informático
-            setupTabs('.subtab-it-btn', '.sub-content-it', 
-                ['bg-ris', 'text-white'], 
-                ['bg-gray-100', 'text-gray-600']
-            );
-
+            setupTabs('.main-tab-btn', '.main-content', ['border-ris', 'text-ris'], ['border-transparent', 'text-gray-500']);
+            setupTabs('.subtab-rrhh-btn', '.sub-content-rrhh', ['bg-ris', 'text-white'], ['bg-gray-100', 'text-gray-600']);
+            setupTabs('.subtab-it-btn', '.sub-content-it', ['bg-ris', 'text-white'], ['bg-gray-100', 'text-gray-600']);
 
             // ==========================================
             // DATOS Y LÓGICA: MÓDULO 2 (Matriz de Cargos)
@@ -647,6 +665,8 @@
             // ==========================================
             try {
                 if (typeof Chart !== 'undefined') {
+                    
+                    // Gráficos de RRHH (Existentes)
                     new Chart(document.getElementById('chartRegimen').getContext('2d'), {
                         type: 'bar',
                         data: {
@@ -664,6 +684,79 @@
                         },
                         options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
                     });
+
+                    // ------------------------------------------
+                    // NUEVOS GRÁFICOS: COMPUTADORAS
+                    // ------------------------------------------
+                    new Chart(document.getElementById('chartComputadorasBar').getContext('2d'), {
+                        type: 'bar',
+                        data: {
+                            labels: ['Bueno', 'Regular', 'Malo', 'Inoperativo'],
+                            datasets: [{
+                                label: 'Cantidad',
+                                data: [416, 150, 72, 28],
+                                backgroundColor: ['#10b981', '#eab308', '#f97316', '#ef4444'] // Verde, Amarillo, Naranja, Rojo
+                            }]
+                        },
+                        options: { 
+                            responsive: true, 
+                            maintainAspectRatio: false, 
+                            plugins: { legend: { display: false } } 
+                        }
+                    });
+
+                    new Chart(document.getElementById('chartComputadorasPie').getContext('2d'), {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Bueno', 'Regular', 'Malo', 'Inoperativo'],
+                            datasets: [{
+                                data: [416, 150, 72, 28],
+                                backgroundColor: ['#10b981', '#eab308', '#f97316', '#ef4444']
+                            }]
+                        },
+                        options: { 
+                            responsive: true, 
+                            maintainAspectRatio: false, 
+                            plugins: { legend: { position: 'right' } } 
+                        }
+                    });
+
+                    // ------------------------------------------
+                    // NUEVOS GRÁFICOS: MONITORES
+                    // ------------------------------------------
+                    new Chart(document.getElementById('chartMonitoresBar').getContext('2d'), {
+                        type: 'bar',
+                        data: {
+                            labels: ['SÍ (Operativos)', 'NO (Inoperativos)'],
+                            datasets: [{
+                                label: 'Cantidad',
+                                data: [312, 57],
+                                backgroundColor: ['#10b981', '#ef4444'] // Verde, Rojo
+                            }]
+                        },
+                        options: { 
+                            responsive: true, 
+                            maintainAspectRatio: false, 
+                            plugins: { legend: { display: false } } 
+                        }
+                    });
+
+                    new Chart(document.getElementById('chartMonitoresPie').getContext('2d'), {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['SÍ (Operativos)', 'NO (Inoperativos)'],
+                            datasets: [{
+                                data: [312, 57],
+                                backgroundColor: ['#10b981', '#ef4444']
+                            }]
+                        },
+                        options: { 
+                            responsive: true, 
+                            maintainAspectRatio: false, 
+                            plugins: { legend: { position: 'bottom' } } 
+                        }
+                    });
+
                 }
             } catch(error) {
                 console.error("No se pudo cargar los gráficos: ", error);
